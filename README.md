@@ -27,7 +27,7 @@ This project will extend the ANUGA Hydro software, which is capable of hydrodyna
 | Lixin Hou | u6456457 | ANUGA developer<br>Documantation author | Client Manager |
 | Mingda Zheng | u6686733 | ANUGA developer<br>Quality manager | Code reviewer (SWMM)<br>Test developer|
 | Yijie Liu | u6890141 | ANUGA developer<br>Quality manager<br>Documentation author | Test developer<br> |
-| Zijun Zhang | u6904534 | SWMM developer<br>Documantation author | Code reviewer (ANUGA) |
+| Zijun Zhang | u6904534 | SWMM developer<br>Documentation author | Code reviewer (ANUGA) |
 
 ## Stakeholders
 * **The sponsors:**
@@ -38,6 +38,10 @@ This project will extend the ANUGA Hydro software, which is capable of hydrodyna
    * Dr Petar Milevski, Civil Engineer Urban Drainage, Wollongong City Council
 
 ## Documentation
+
+### Statement of Work
+
+> [V.1](https://drive.google.com/file/d/1Hb2j2KeJzwX2FM4dNMCTmS8V8kXxqOQD/view?usp=sharing)
 
 ### Sprint Stories
 
@@ -55,9 +59,13 @@ Sprint 1 (start of semester - 19/08/2020)
 
 > [2020-08-06 Client Meeting](https://docs.google.com/document/d/1J_kqxAhOHSAh3xWV8enVu0XkZSba1jQchf01azwkgvg/edit?usp=sharing)
 
-> [2020-08-06 Team Meeting](https://docs.google.com/document/d/1J_kqxAhOHSAh3xWV8enVu0XkZSba1jQchf01azwkgvg/edit?usp=sharing)
+> [2020-08-06 Team Meeting](https://docs.google.com/document/d/1TSrCJVN6h5WFBfUl96gyvOTVphKCoR4-Ap0t-zANyf0/edit?usp=sharing)
 
 > [2020-08-11 Team Meeting](https://docs.google.com/document/d/1Y9Rpm179KeMyxmN4nzFfLMplG6DxY44MxcMesnc1g28/edit?usp=sharing)
+
+> [2020-08-12 Client Meeting](https://docs.google.com/document/d/1xuQi6PqbxpRX6mbUkZXvexbnCZzglCLeXB2ugw3vM3I/edit?usp=sharing)
+
+> [2020-08-12 Team Meeting](https://docs.google.com/document/d/1DDAFtIT_7RpGpm0CvSyJl2uucRn036oh8wrYwniZzAA/edit?usp=sharing)
 
 ### Decisions
 
