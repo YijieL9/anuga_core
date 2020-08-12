@@ -52,12 +52,20 @@ This project will extend the ANUGA Hydro software, which is capable of hydrodyna
 Sprint 1 (start of semester - 19/08/2020)
 
 > [2020-08-04 Team Meeting](https://docs.google.com/document/d/1SW3PUsRs-9bc1CYlVkW6fHQLiOQ0cm0w_jzSKu37Gpw/edit?usp=sharing)
+
 > [2020-08-06 Client Meeting](https://docs.google.com/document/d/1J_kqxAhOHSAh3xWV8enVu0XkZSba1jQchf01azwkgvg/edit?usp=sharing)
+
+> [2020-08-06 Team Meeting](https://docs.google.com/document/d/1J_kqxAhOHSAh3xWV8enVu0XkZSba1jQchf01azwkgvg/edit?usp=sharing)
+
+> [2020-08-11 Team Meeting](https://docs.google.com/document/d/1Y9Rpm179KeMyxmN4nzFfLMplG6DxY44MxcMesnc1g28/edit?usp=sharing)
 
 ### Decisions
 
 > [Log for Small Decisions](https://docs.google.com/spreadsheets/d/1uPZlRMNaRBlZnUdfNPVQ4e_S48npiRRkqP9GHJUyXS4/edit?usp=sharing)
-> [Documents for Large Decisions](https://docs.google.com/spreadsheets/d/1uPZlRMNaRBlZnUdfNPVQ4e_S48npiRRkqP9GHJUyXS4/edit?usp=sharing)
+
+> [Template for Large Decisions](https://docs.google.com/document/d/11qM3a2_Abr2oGtYLgIPA4QjgSELj9RFD4IboVFuBqEg/edit?usp=sharing)
+
+> [2020-08-05 Continuous Integration Tool Selection](https://docs.google.com/document/d/1xt46NBabq5xelkVywf4NLt9Su33GicAFldKurt747fs/edit?usp=sharing)
 
 ## Timeline
 
@@ -66,7 +74,7 @@ We are doing two-week sprints, with client meetings to close each sprint on Wedn
 The first sprint will be a bit longer, so that the rest of the sprints will end just before the Week 6 and Week 10 audits. This means the first sprint will end Wednesday of Week 4.
 
 * **2020-s2-timeline**
-<img src="https://drive.google.com/file/d/1fBOS3L8SHISkuszNiWiaJWVJX4TLfvgx/view?usp=sharing" alt="20-s2-TL" align=center />
+<img src="https://github.com/rachelwu21/anuga_core/blob/master/20-s2%20timeline.jpg" alt="20-s2-TL" align=center />
 
 * **2021-s1-timeline (TBC)**
 
@@ -98,3 +106,7 @@ The first sprint will be a bit longer, so that the rest of the sprints will end 
 ## Technical Constraints
 
 The end modelling software must be a coupling between ANUGA and SWMM. There are no other open-source options for this type of software. And even if there were, the team was commissioned by the clients to improve the existing ANUGA Hydro software in a specific way. 
+
+## Build Status
+[![Build Status](https://travis-ci.com/20-S2-2-C-Flood-Modelling/anuga_core.svg?branch=master)](https://travis-ci.com/20-S2-2-C-Flood-Modelling/anuga_core)
+
