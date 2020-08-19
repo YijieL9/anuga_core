@@ -5,7 +5,7 @@ matrix:
 
        - os: windows
          language: shell
-         env: DISTRIB="windows"
+         env: DISTRIB="windows" CONDA_PYTHON=3.7
 before_install:
 - |-
     case $TRAVIS_OS_NAME in
