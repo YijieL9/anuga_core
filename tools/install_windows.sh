@@ -33,7 +33,6 @@ else
     echo "folder $MINICONDA_SUB_PATH does not exist"
 fi;
 
-
 source $MINICONDA_PATH/etc/profile.d/conda.sh;
 hash -r;
 conda config --set always_yes yes --set changeps1 no
@@ -42,12 +41,26 @@ conda update -q conda -y;
 
 # Configure the conda environment and put it in the path using the
 # provided versions
-conda create -n anuga -c conda-forge python=3.8.2 git pip nose numpy scipy netcdf4 matplotlib gdal dill cython future openmp gitpython -y
-
+echo "###########################################################"
+echo "create virtual env & installing packages"
+conda create -n anuga -c conda-forge python pip numpy scipy gdal dill cython future openmp gitpython -y
 conda activate anuga
-#source C:\Users\travis\miniconda\envs\anuga
 conda info --env
 
-echo "##################"
+echo "###########################################################"
 echo "start installing mpi4py"
 pip install mpi4py
+
+
+
+#########################################################
+# Build and install anuga
+echo "###########################################################"
+echo "start Building!!!!!"
+echo "###########################################################"
+python setup.py build
+
+echo "###########################################################"
+echo "start Building!!!!!"
+echo "###########################################################"
+python setup.py install
