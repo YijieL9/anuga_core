@@ -43,7 +43,7 @@ conda update -q conda -y;
 # provided versions
 echo "###########################################################"
 echo "create virtual env & installing packages"
-conda create -n anuga -c conda-forge python=2.7 pip numpy scipy gdal dill cython future openmp gitpython -y
+conda create -n anuga python=2.7.13 gdal=2.2.2 git nose numpy scipy netcdf4 matplotlib dill libpython msys2::m2w64-toolchain
 conda activate anuga
 conda info --env
 
