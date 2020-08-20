@@ -43,14 +43,14 @@ conda update -q conda -y;
 # provided versions
 echo "###########################################################"
 echo "create virtual env & installing packages"
-conda create -n anuga python gdal=2.2.2 git nose numpy scipy netcdf4 matplotlib dill libpython msys2::m2w64-toolchain cython future openmp -y
+conda create -n anuga python gdal nose numpy scipy netcdf4 matplotlib dill libpython msys2::m2w64-toolchain future cython
 conda activate anuga
 conda info --env
 
 echo "###########################################################"
 echo "start installing mpi4py"
 pip install mpi4py
-
+pip install triangle  
 
 
 #########################################################
