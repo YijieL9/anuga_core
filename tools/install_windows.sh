@@ -52,7 +52,6 @@ echo "start installing mpi4py"
 pip install mpi4py
 pip install triangle  
 
-
 #########################################################
 # Build and install anuga
 echo "###########################################################"
