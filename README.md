@@ -39,6 +39,10 @@ This project will extend the ANUGA Hydro software, which is capable of hydrodyna
 
 ## Documentation
 
+### Google Docs Folder
+
+> [All Materials](https://drive.google.com/drive/folders/16Z4aiFDwxBb5qRQU78bVDZmsvFZOTPmk?usp=sharing)
+
 ### Statement of Work
 
 > [V.1](https://drive.google.com/file/d/1Hb2j2KeJzwX2FM4dNMCTmS8V8kXxqOQD/view?usp=sharing)
@@ -50,6 +54,8 @@ This project will extend the ANUGA Hydro software, which is capable of hydrodyna
 ### Communication
 
 > [Slack](https://anu-flood-modelling.slack.com)
+
+> Email
 
 ### Meeting Minutes
 
@@ -66,6 +72,32 @@ Sprint 1 (start of semester - 19/08/2020)
 > [2020-08-12 Client Meeting](https://docs.google.com/document/d/1xuQi6PqbxpRX6mbUkZXvexbnCZzglCLeXB2ugw3vM3I/edit?usp=sharing)
 
 > [2020-08-12 Team Meeting](https://docs.google.com/document/d/1DDAFtIT_7RpGpm0CvSyJl2uucRn036oh8wrYwniZzAA/edit?usp=sharing)
+
+Sprint 2 (19/08/2020 - 02/09/2020)
+
+> [2020-08-19 Client Meeting (sprint end/start)](https://docs.google.com/document/d/1pkxORBpc-0SfU_oyCqxczmxs7KlaVyPZL7RJfRDCR48/edit?usp=sharing)
+
+> [2020-08-19 Team Meeting (sprint start)](https://docs.google.com/document/d/1ZnBXNOj-Jqx6SO_uYdZPlars6H0JniCilBfcoA9xI2M/edit?usp=sharing)
+
+> [2020-08-26 Client Meeting](https://docs.google.com/document/d/1A9OFPDastLef0VJmBKX0fM5QJeeLZsB5PRbd-QajyNI/edit?usp=sharing)
+
+> [2020-08-26 Team Meeting](https://docs.google.com/document/d/1DlJlfKMPyyqoO_YJeZl6Aey1x4eywT6jdjrGmDLA3MM/edit?usp=sharing)
+
+### Development Artefacts
+
+> [Sprint 1](https://drive.google.com/drive/folders/1vmBj6LaNh856jAEzvsyGWSGuSnovIyRs?usp=sharing)
+
+> [Sprint 2](https://drive.google.com/drive/folders/1F4Q5Iqexq1BnQAzWQfQ3h0j9jsK95sl5?usp=sharing)
+
+### Reflection
+
+> [Sprint 1 Reflection (a.k.a. reflection on audit 1 feedback)](https://docs.google.com/document/d/16xBJXXnX3MSNlGU8p7AD8YrlXbIl53kUddITZu9re3k/edit?usp=sharing)
+
+### Client-Provided Resources
+
+> [All Materials](https://drive.google.com/drive/folders/1j-Ex4TJj_q8MZ6cUNJItfzBr-FuQCQ7A?usp=sharing)
+
+> [ldeas shared on Slack](https://docs.google.com/document/d/1uRRW0dEOZgfzpxXeJTrC4DeBQovkaaz06gjDWiu8CeQ/edit?usp=sharing)
 
 ### Decisions
 
