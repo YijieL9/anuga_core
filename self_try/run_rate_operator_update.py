@@ -113,11 +113,11 @@ polygon2 = [ [12.0, 2.0], [13.0, 2.0], [13.0, 3.0], [12.0, 3.0] ]
 from anuga.operators.rate_operators import Rate_operator
 
 #op1 = Rate_operator(domain, rate=lambda t: 10.0 if (t>=0.0) else 0.0, polygon=polygon2)
-#op2 = Rate_operator(domain, rate=lambda t: 10.0 if (t>=0.0) else 0.0, radius=0.5, center=(10.0, 3.0))
+op2 = Rate_operator(domain, rate=lambda t: 10.0 if (t>=0.0) else 0.0, radius=1.0, center=(10.0, 3.0))
 
 def dyn_t(t):
     return t+0.5
-op1 = Rate_operator(domain, polygon=polygon2)
+op1 = Rate_operator(domain, polygon=polygon1)
 domain.set_starttime(-0.1)
 boundary_tags={'bottom': [0],
                 'right': [1],
@@ -127,13 +127,24 @@ dodm = anuga.create_domain_from_regions(polygon2,boundary_tags,
                                maximum_triangle_area = 0.5,
                                )
 from anuga import Region
-if isinstance(polygon2, Region):
-    op1.region = polygon2
+region1 = Region(domain,radius = 1.0, center = (10.0, 3.0))
+if isinstance(region1, Region):
+    op2.region = region1
 else:
-    op1.region = Region(domain, poly=polygon2, expand_polygon=True)
+    op2.region = Region(domain, poly=region1, expand_polygon=True)
+
+if isinstance(polygon1, Region):
+    op1.region = polygon1
+else:
+    op1.region = Region(domain, poly=polygon1, expand_polygon=True)
 
 
-for t in domain.evolve(yieldstep=0.1, finaltime=1.0):
+from self_try import get_circumference_indices
+polygon11 = [ [10.0, 0.2], [11.0, 0.2], [11.0, 4.8], [10.0, 4.8] ]
+
+for t in domain.evolve(yieldstep=0.3, finaltime=1.0):
+    print("domain.parallel:", domain.parallel)
+    op2.set_rate(dyn_t(t))
     op1.set_rate(dyn_t(t))
     domain.print_timestepping_statistics()
     domain.print_operator_timestepping_statistics()
@@ -142,11 +153,18 @@ for t in domain.evolve(yieldstep=0.1, finaltime=1.0):
     elev  = domain.get_quantity('elevation')
     height = stage - elev
 
-    print ('integral = ', height.get_integral())
+    #print ('integral = ', height.get_integral())
     #print("st",stage)
-    print("stages",op1.stage_c[:].take([op1.region.indices]))# num is the specific triangle indice
-    print("elecation",op1.elev_c[:].take([op1.region.indices]))
-    print("depth ",op1.stage_c[:].take([op1.region.indices])-op1.elev_c[:].take([op1.region.indices]))
+    #print("stages",op2.stage_c[:].take([op2.region.indices]))# num is the specific triangle indice
+    print("stages_length",len(op2.stage_c[:].take([op2.region.indices])[0]))
+    print("stages_length111", len(op1.stage_c[:].take([op1.region.indices])[0]))
+    #print("stage_boundary",op2.stage_c[:].take([get_circumference_indices.get_cir(radius=1.0,center = (10.0,3.0),domain = domain,size = 0.2)]))
+    print("stage_boundary_length",len(op2.stage_c[:].take([get_circumference_indices.get_cir(radius=1.0,center = (10.0,3.0),domain = domain,size = 0.2)])[0]))
+    print("stage_boundary_length111", len(op1.stage_c[:].take(
+        [get_circumference_indices.get_cir( domain=domain, polygons=[polygon1,polygon11],size=0.2)])[0]))
+
+    #print("elecation",op1.elev_c[:].take([op1.region.indices]))
+    #print("depth ",op1.stage_c[:].take([op1.region.indices])-op1.elev_c[:].take([op1.region.indices]))
 """
 for t in domain.evolve(yieldstep=0.1, duration=5.0):
 
