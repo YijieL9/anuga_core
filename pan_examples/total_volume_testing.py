@@ -97,22 +97,13 @@ def get_cir (radius=None,center=None,domain=None,size=None,polygons=None):
 
 
     if radius is not None and center is not None:
-        op1 = Rate_operator(domain,radius=radius,center = center)
-        op2 = Rate_operator(domain,radius=radius-size,center= center)
+
         region1 = Region(domain,radius = radius, center = center)
         region2 = Region(domain,radius = radius-size,center = center)
-        if isinstance(region1, Region):
-            op1.region = region1
-        else:
-            op1.region = Region(domain, poly=region1, expand_polygon=True)
-        if isinstance(region2, Region):
-            op2.region = region2
-        else:
-            op2.region = Region(domain, poly=region2, expand_polygon=True)
     if radius is None and center is None:
         indices = [x for x in opp1.region.indices if x not in opp2.region.indices]
     else:
-        indices = [x for x in op1.region.indices if x not in op2.region.indices]
+        indices = [x for x in region1.indices if x not in region2.indices]
 
     return indices
 
@@ -172,5 +163,5 @@ for t in domain.evolve(yieldstep=1.0, finaltime=20.0):
     for key in volumes:
 
         print("Volume total at node",key,":",volumes[key])
-
+    #Here is the calling of the inlet/outlet boundary triangle indices
     print("CCCCCCCC",get_cir(radius=0.5,center = (2.0,2.0),domain = domain,size = 0.1))
