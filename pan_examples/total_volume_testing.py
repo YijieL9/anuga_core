@@ -8,20 +8,20 @@ we can validate this testing by monitor the change of the water total volume. It
 to SWMM and flowing back to ANUGA.
 """
 
+
 # ------------------------------------------------------------------------------
 # Import necessary modules
 # ------------------------------------------------------------------------------
-from anuga import rectangular_cross
+from anuga import Dirichlet_boundary
 from anuga import Domain
 from anuga import Reflective_boundary
-from anuga import Dirichlet_boundary
 from anuga.operators.rate_operators import Rate_operator
-from anuga import Time_boundary
+from anuga import Region
+from anuga import rectangular_cross
 
 # ------------------------------------------------------------------------------
 # Setup computational domain
 # ------------------------------------------------------------------------------
-from pan_examples.our_test import run_swmm
 
 length = 15.
 width = 5.
@@ -50,11 +50,11 @@ def topography(x, y):
     id = (5 < x) & (x < 10)
     z[id] = 0
 
-    # inflow pipe hole, located at (2, 2), r = 0.3, depth 0.1
+    # inflow pipe hole, located at (2, 2), r = 0.5, depth 0.1
     id = (x - 2) ** 2 + (y - 2) ** 2 < 0.3 ** 2
     z[id] -= 0.2
 
-    # inflow pipe hole, located at (12, 2), r = 0.3, depth 0.1
+    # inflow pipe hole, located at (12, 2), r = 0.5, depth 0.1
     id = (x - 12) ** 2 + (y - 2) ** 2 < 0.3 ** 2
     z[id] -= 0.2
 
@@ -67,24 +67,22 @@ def topography(x, y):
 domain.set_quantity('elevation', topography)  # elevation is a function
 domain.set_quantity('friction', 0.01)  # Constant friction
 domain.set_quantity('stage', expression='elevation')  # Dry initial condition
-#--------------------------
-import anuga
-from anuga import rectangular_cross
-from anuga import Domain
-from anuga.operators.rate_operators import Rate_operator
-from anuga import Region
+# --------------------------
+
 """
 We would use this method to gain the boundary indices
 """
-#polygon1 = [ [10.0, 0.0], [11.0, 0.0], [11.0, 5.0], [10.0, 5.0] ]
-#polygon2 = [ [10.0, 0.2], [11.0, 0.2], [11.0, 4.8], [10.0, 4.8] ]
 
-def get_cir (radius=None,center=None,domain=None,size=None,polygons=None):
+
+# polygon1 = [ [10.0, 0.0], [11.0, 0.0], [11.0, 5.0], [10.0, 5.0] ]
+# polygon2 = [ [10.0, 0.2], [11.0, 0.2], [11.0, 4.8], [10.0, 4.8] ]
+
+def get_cir(radius=None, center=None, domain=None, size=None, polygons=None):
     if polygons is not None:
-        polygon1 = polygons[0]#the larger one
+        polygon1 = polygons[0]  # the larger one
         polygon2 = polygons[1]
         opp1 = Rate_operator(domain, polygon=polygon1)
-        opp2 = Rate_operator(domain,polygon = polygon2)
+        opp2 = Rate_operator(domain, polygon=polygon2)
         if isinstance(polygon1, Region):
             opp1.region = polygon1
         else:
@@ -94,18 +92,31 @@ def get_cir (radius=None,center=None,domain=None,size=None,polygons=None):
         else:
             opp2.region = Region(domain, poly=polygon2, expand_polygon=True)
 
-
-
     if radius is not None and center is not None:
-
-        region1 = Region(domain,radius = radius, center = center)
-        region2 = Region(domain,radius = radius-size,center = center)
+        op1 = Rate_operator(domain, radius=radius, center=center)
+        op2 = Rate_operator(domain, radius=radius - size, center=center)
+        region1 = Region(domain, radius=radius, center=center)
+        region2 = Region(domain, radius=radius - size, center=center)
+        if isinstance(region1, Region):
+            op1.region = region1
+        else:
+            op1.region = Region(domain, poly=region1, expand_polygon=True)
+        if isinstance(region2, Region):
+            op2.region = region2
+        else:
+            op2.region = Region(domain, poly=region2, expand_polygon=True)
     if radius is None and center is None:
         indices = [x for x in opp1.region.indices if x not in opp2.region.indices]
     else:
-        indices = [x for x in region1.indices if x not in region2.indices]
+        indices = [x for x in op1.region.indices if x not in op2.region.indices]
 
     return indices
+
+
+def get_depth(t):
+    # FIXME: according to the index return the overland depth of specific area
+    overland_depth = -0.02 * t + 1
+    return overland_depth
 
 # ------------------------------------------------------------------------------
 # Setup boundaries
@@ -119,16 +130,9 @@ domain.set_boundary({'left': Br, 'right': Br, 'top': Br, 'bottom': Br})
 # ------------------------------------------------------------------------------
 # Setup inject water
 # ------------------------------------------------------------------------------
-inject_op = Rate_operator(domain, radius=0.5, center=(2.5, 2.5))
-outflow_op = Rate_operator(domain, radius=0.3, center=(2., 2.)) #
-inflow_op = Rate_operator(domain, radius=0.3, center=(12., 2)) #
+op_inlet = Rate_operator(domain, radius=0.5, center=(2., 2.))
+op_outlet = Rate_operator(domain, radius=0.5, center=(12., 2.))  #
 
-
-def inject_water(t): # inject water volume will change by time
-    if t > 2:
-        return 0
-    else:
-        return 10
 
 
 from pyswmm import Simulation, Nodes, Links
@@ -140,28 +144,31 @@ node_names = ['Inlet', 'Outlet']
 link_names = ['Culvert']
 
 nodes = [Nodes(sim)[names] for names in node_names]
-
 links = [Links(sim)[names] for names in link_names]
+
 # type, area, length, orifice_coeff, free_weir_coeff, submerged_weir_coeff
 nodes[0].create_opening(4, 1.0, 1.0, 0.6, 1.6, 1.0)
 nodes[0].coupling_area = 1.0
 
-
+# TODO: setup the outlet node
+nodes[1].create_opening(4, 1.0, 1.0, 0.6, 1.6, 1.0)
+nodes[1].coupling_area = 1.0
 
 
 for t in domain.evolve(yieldstep=1.0, finaltime=20.0):
-    inject_op.set_rate(inject_water(t))
-    domain.print_timestepping_statistics()
-    nodes[0].overland_depth = 1.0
+    print(f"coupling step: {t}")
+    # domain.print_timestepping_statistics()
+
+    # set the overland_depth
+    # TODO: set up the overland depth, modify this function
+    nodes[0].overland_depth = get_depth(t)
+    print("inlet overland depth: ", get_depth(t))
+
 
     volumes = sim.coupling_step(1.0)
-
-    print("Step:",t)
-
-    print("Current time:",sim.current_time)
-
     for key in volumes:
+        print("Volume total at node", key, ":", volumes[key])
+    op_inlet.set_rate(-1 * volumes['Inlet'])
+    op_outlet.set_rate(volumes['Outlet'])
 
-        print("Volume total at node",key,":",volumes[key])
-    #Here is the calling of the inlet/outlet boundary triangle indices
-    print("CCCCCCCC",get_cir(radius=0.5,center = (2.0,2.0),domain = domain,size = 0.1))
+    print()
