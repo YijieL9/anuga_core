@@ -105,9 +105,9 @@ def get_cir(radius=None, center=None, domain=None, size=None, polygons=None):
     return indices
 
 
-def get_depth(t,volume):
+def get_depth():
     # FIXME: according to the index return the overland depth of specific area
-    # Lixin: volume is used for getting the current volume in this second from the pipe
+
     # need check each triangle's area should be dx*dy/4
     len_boud_pipe = len(op_inlet.stage_c[:].take([get_cir(radius=0.5, center=(2.0, 2.0), domain=domain, size=0.0625)])[0])
     overland_depth = sum(op_inlet.stage_c[:].take([get_cir(radius=0.5, center=(2.0, 2.0), domain=domain, size=0.0625)])
@@ -117,8 +117,8 @@ def get_depth(t,volume):
 
 
 
-    if t>0:
-        overland_depth += volume/(3.14*0.5*0.5)
+    #if t>stop_realse_water_time+1:
+        #overland_depth += volume/(3.14*0.5*0.5)
     #overland_depth = -0.02 * t + 1
     return overland_depth
 
@@ -158,25 +158,42 @@ nodes[1].create_opening(4, 1.0, 1.0, 0.6, 1.6, 1.0)
 
 
 print("node1_is_open?:",nodes[1].is_coupled)
-for t in domain.evolve(yieldstep=1.0, finaltime=40.0):
+
+stop_release_water_time = 2 # the time for stopping releasing the water
+original_volume = 0 # used for storing the initial volume
+for t in domain.evolve(yieldstep=1.0, finaltime=10.0):
     print(f"coupling step: {t}")
     # domain.print_timestepping_statistics()
-
-    # set the overland_depth
-    # TODO: set up the overland depth, modify this function
-    volumes = sim.coupling_step(1.0)
-    if t == 0:
-        nodes[0].overland_depth = get_depth(t,0)
-        print("inlet overland depth: ", get_depth(t,0))
+    if t < stop_release_water_time:
+        # assume we need to release the water into the domain for first two seconds
+        op_inlet.set_rate(23.0)
     else:
-        nodes[0].overland_depth = get_depth(t, -1 * volumes['Inlet'])
-        print("inlet overland depth: ", get_depth(t, -1 * volumes['Inlet']))
+        # set the overland_depth
+        # TODO: set up the overland depth, modify this function
+        volumes = sim.coupling_step(1.0)
+
+        nodes[0].overland_depth = get_depth()
+        print("inlet overland depth: ", get_depth())
+        if t == stop_release_water_time:
+            original_volume = -1 * volumes['Inlet']
+            print("Volume total at node Inlet" ":", volumes["Inlet"])
+            print("Oulet: ", nodes[1].total_inflow)
+            op_inlet.set_rate(-1 * volumes['Inlet'])
+            op_outlet.set_rate(nodes[1].total_inflow)
+        elif t==stop_release_water_time+1:
+            op_inlet.set_rate(original_volume)
+            print("Volume total at node Inlet" ":", volumes["Inlet"])
+            print("Oulet: ", nodes[1].total_inflow)
+            op_outlet.set_rate(nodes[1].total_inflow)
+        else:
+            print("Volume total at node Inlet" ":", volumes["Inlet"])
+            print("Oulet: ", nodes[1].total_inflow)
+            op_inlet.set_rate(-1 * volumes['Inlet'])
+            op_outlet.set_rate(nodes[1].total_inflow)
 
 
 
 
-    print("Volume total at node Inlet" ":", volumes["Inlet"])
-    print("Oulet: ",nodes[1].total_inflow)
-    op_inlet.set_rate(-1 * volumes['Inlet'])
-    op_outlet.set_rate(nodes[1].total_inflow)
+
+
 
