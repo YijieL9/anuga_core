@@ -157,7 +157,8 @@ print("node1_is_open?:",nodes[1].is_coupled)
 
 stop_release_water_time = 2 # the time for stopping releasing the water
 original_volume = 0 # used for storing the initial volume
-for t in domain.evolve(yieldstep=1.0, finaltime=59.0):
+for t in domain.evolve(yieldstep=1.0, finaltime=63.0):
+    print("\n")
     print(f"coupling step: {t}")
     # domain.print_timestepping_statistics()
     if t < stop_release_water_time:
@@ -166,7 +167,7 @@ for t in domain.evolve(yieldstep=1.0, finaltime=59.0):
     else:
         # set the overland_depth
         # TODO: set up the overland depth, modify this function
-        print("\n")
+
         print("total volume: ",domain.get_water_volume())
         volumes = sim.coupling_step(1.0)
 
